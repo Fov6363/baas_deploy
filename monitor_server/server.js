@@ -10,17 +10,29 @@ const mongodb                                                               = re
 const mongoClient                                                           = mongodb.MongoClient;
 const config                                                                = require('./env').config;
 const mongo_option                                                          = require('./env').mongo_option;
+const mongo_url                                                             = require('./env').mongo_url;
+const SystemLogRouter                                                       = require('./routers/system_log');
 
-app.use(bodyParser);
+let conn;
+
+app.use(bodyParser());
 
 
+router.post('/system_log/new.json',SystemLogRouter.insert);
 
-app.use(ctx => {
-    ctx.body = 'Hello Koa';
+
+router.get('/',function (ctx,next) {
+    ctx.body = 'hello world';
 });
-
 
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.listen(3000);
+
+mongoClient.connect(mongo_url,mongo_option,function (err,_conn) {
+    conn = _conn;
+
+    console.log(`server has running in port ${config.server_port}`);
+    app.listen(config.server_port);
+});
+

@@ -7,8 +7,11 @@ const mongo_option = {
 };
 
 const config = {
-    'server_port': 1000,
+    'server_port': 12319,
 };
 
-exports = mongo_option;
-exports = config;
+const mongo_url = 'mongodb://127.0.0.1:27017/';
+
+exports.mongo_option        = mongo_option;
+exports.config              = config;
+exports.mongo_url           = mongo_url;
